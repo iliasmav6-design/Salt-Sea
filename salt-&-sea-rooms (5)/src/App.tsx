@@ -547,7 +547,7 @@ export default function App() {
               <div>
                 <input
                   type="password"
-                  placeholder="Εισάγετε τον κωδικό π.χ. rooms2026"
+                  placeholder="Εισάγετε τον κωδικό"
                   value={passcodeInput}
                   onChange={(e) => setPasscodeInput(e.target.value)}
                   className="w-full text-center text-sm p-3 border border-warm-border rounded-lg bg-white/70 focus:outline-none focus:border-brand font-mono tracking-widest text-slate-800 focus:bg-white animate-none"
@@ -580,7 +580,7 @@ export default function App() {
             </form>
 
             <div className="text-[10px] text-slate-400 font-sans border-t border-slate-100 pt-4">
-              Salt & Sea Rooms Security Shield • Default: <span className="font-mono bg-slate-50 px-1 py-0.5 text-slate-500 rounded border border-slate-100">rooms2026</span>
+              Salt & Sea Rooms Security Shield • Protected Area
             </div>
           </div>
         </div>
