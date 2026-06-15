@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Καθολικός κανόνας ασφαλείας: άρνηση πρόσβασης από προεπιλογή
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Επιτρέπει την ανάγνωση και εγγραφή στις ρυθμίσεις της ιστοσελίδας
+    match /settings/{documentId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
