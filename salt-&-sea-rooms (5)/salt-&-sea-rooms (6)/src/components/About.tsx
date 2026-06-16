@@ -45,6 +45,7 @@ export default function About() {
                   className="rounded-lg w-full h-[320px] object-cover filter brightness-[0.98]"
                   alt="Sunny Greek coastal sea of Halkidiki"
                   referrerPolicy="no-referrer"
+                  animatePan={true}
                 />
                 <div className="mt-3 bg-white p-4 rounded-lg border border-warm-border/60 text-center">
                   <p className="font-serif italic text-slate-700 text-xs sm:text-sm">
