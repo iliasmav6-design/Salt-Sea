@@ -66,6 +66,7 @@ interface EditableImageProps {
   className?: string;
   alt?: string;
   referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+  animatePan?: boolean;
 }
 
 export const EditableImage: React.FC<EditableImageProps> = ({
@@ -76,6 +77,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
   className = '',
   alt = '',
   referrerPolicy,
+  animatePan = false,
 }) => {
   const { isEditingMode, setSelectedEditElement } = useCustomizer();
 
@@ -94,12 +96,14 @@ export const EditableImage: React.FC<EditableImageProps> = ({
 
   if (!isEditingMode) {
     return (
-      <img
-        src={src}
-        alt={alt}
-        className={className}
-        referrerPolicy={referrerPolicy}
-      />
+      <div className={`overflow-hidden ${className}`}>
+        <img
+          src={src}
+          alt={alt}
+          className={`w-full h-full object-cover ${animatePan ? 'animate-slowPanUp' : ''}`}
+          referrerPolicy={referrerPolicy}
+        />
+      </div>
     );
   }
 
@@ -112,7 +116,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
       <img
         src={src}
         alt={alt}
-        className="w-full h-full object-cover transition-all duration-300 group-hover/editable:scale-105 group-hover/editable:brightness-95"
+        className={`w-full h-full object-cover transition-all duration-300 group-hover/editable:scale-105 group-hover/editable:brightness-95 ${animatePan ? 'animate-slowPanUp' : ''}`}
         referrerPolicy={referrerPolicy}
       />
       <div className="absolute inset-0 bg-brand/10 opacity-0 group-hover/editable:opacity-100 flex items-center justify-center transition-all duration-200">
