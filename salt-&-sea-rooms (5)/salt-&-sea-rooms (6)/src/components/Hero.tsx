@@ -148,6 +148,7 @@ export default function Hero({ onBookClick, onExploreClick }: HeroProps) {
                   className="rounded-xl w-full h-[320px] sm:h-[400px] object-cover filter brightness-[0.98]"
                   alt="Salt & Sea Rooms Exterior and Aegean Horizon"
                   referrerPolicy="no-referrer"
+                  animatePan={true}
                 />
                 <div className="pt-4 pb-2 px-2 flex justify-between items-center bg-white">
                   <div>
