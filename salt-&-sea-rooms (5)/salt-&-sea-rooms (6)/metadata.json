@@ -1,0 +1,6 @@
+{
+  "name": "Salt & Sea Rooms",
+  "description": "Lovely clean-pastel guest accommodation website for Salt & Sea Rooms in Sarti and Sykia, Halkidiki Greece, with room showcases, location map, amenities list, and an interactive booking calendar workflow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

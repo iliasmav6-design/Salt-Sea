@@ -1,0 +1,25 @@
+{
+  "entities": {
+    "ProjectConfig": {
+      "title": "ProjectConfig",
+      "description": "Unified settings document containing all rooms, custom layouts, colors and contact details",
+      "type": "object",
+      "properties": {
+        "siteSettings": { "type": "object" },
+        "themeSettings": { "type": "object" },
+        "rooms": { "type": "array" },
+        "galleryItems": { "type": "array" },
+        "sections": { "type": "array" },
+        "bookings": { "type": "array" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["siteSettings", "themeSettings", "rooms", "galleryItems", "sections", "bookings"]
+    }
+  },
+  "firestore": {
+    "/settings/{documentId}": {
+      "schema": "ProjectConfig",
+      "description": "Publically readable configuration document, writeable by administrator to sync changes."
+    }
+  }
+}
