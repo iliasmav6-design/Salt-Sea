@@ -20,7 +20,7 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
   const [modalActivePhotoIndex, setModalActivePhotoIndex] = useState<number>(0);
   const [slideTicks, setSlideTicks] = useState<Record<string, number>>({});
 
-  // Auto-play room images slideshow to rotate images automatically every 5 seconds
+  // Auto-play room images slideshow to rotate images automatically every 3 seconds
   useEffect(() => {
     const intervals = rooms.map(room => {
       const roomImages = room.images && room.images.length > 0 ? room.images : [room.imageUrl];
@@ -35,7 +35,7 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
           const curr = prev[room.id] || 0;
           return { ...prev, [room.id]: curr + 1 };
         });
-      }, 5000); // changes every 5 seconds
+      }, 3000); // changes every 3 seconds
     });
 
     return () => {
@@ -117,18 +117,18 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
                           <AnimatePresence initial={false} mode="popLayout">
                             <motion.div
                               key={`${room.id}-${safeIndex}-${slideTicks[room.id] || 0}`}
-                              initial={{ opacity: 0, y: "15%" }}
+                              initial={{ opacity: 0, y: "20%" }}
                               animate={{ opacity: 1, y: "0%" }}
-                              exit={{ opacity: 0, y: "-15%" }}
-                              transition={{ duration: 1.2, ease: "easeInOut" }}
+                              exit={{ opacity: 0, y: "-20%" }}
+                              transition={{ duration: 0.8, ease: "easeInOut" }}
                               className="absolute inset-0 w-full h-full"
                             >
                               <motion.img
                                 src={currentImg}
                                 alt={room.name}
-                                initial={{ y: "4%", scale: 1.07 }}
-                                animate={{ y: "-4%", scale: 1.07 }}
-                                transition={{ duration: 5.2, ease: "linear" }}
+                                initial={{ y: "8%", scale: 1.15 }}
+                                animate={{ y: "-8%", scale: 1.15 }}
+                                transition={{ duration: 3.2, ease: "linear" }}
                                 className="w-full h-full object-cover filter brightness-[0.98]"
                                 referrerPolicy="no-referrer"
                               />
