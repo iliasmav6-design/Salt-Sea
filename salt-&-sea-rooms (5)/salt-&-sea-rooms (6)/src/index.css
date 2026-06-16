@@ -45,11 +45,11 @@
 }
 
 @keyframes slowPanUp {
-  0% { transform: translateY(4%) scale(1.08); }
-  50% { transform: translateY(-4%) scale(1.08); }
-  100% { transform: translateY(4%) scale(1.08); }
+  0% { transform: translateY(6%) scale(1.12); }
+  50% { transform: translateY(-6%) scale(1.12); }
+  100% { transform: translateY(6%) scale(1.12); }
 }
 
 .animate-slowPanUp {
-  animation: slowPanUp 16s ease-in-out infinite;
+  animation: slowPanUp 6s ease-in-out infinite;
 }
