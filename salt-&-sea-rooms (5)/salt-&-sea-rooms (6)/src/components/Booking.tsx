@@ -216,9 +216,24 @@ export default function BookingSection({ preSelectedRoomId }: BookingProps) {
     // Trigger EmailJS notifications if enabled and configured
     if (siteSettings.emailjs_enabled && siteSettings.emailjs_service_id && siteSettings.emailjs_template_id && siteSettings.emailjs_public_key) {
       const templateParams = {
-        booking_id: `SS-${newBooking.id.substring(2, 8).toUpperCase()}`,
+         booking_id: `SS-${newBooking.id.substring(2, 8).toUpperCase()}`,
         guest_name: newBooking.guestName,
         guest_email: newBooking.guestEmail,
+        // Standard fallbacks for EmailJS templates to be compatible with default fields
+        email: newBooking.guestEmail,
+        to_email: siteSettings.emailjs_to_email || siteSettings.siteEmail || 'iliasmav6@gmail.com',
+        to_name: newBooking.guestName,
+        from_name: 'Salt & Sea Rooms',
+        room_name: rooms.find(r => r.id === newBooking.roomId)?.name || ROOMS.find(r => r.id === newBooking.roomId)?.name || "Room",
+        check_in: newBooking.checkIn,
+        check_out: newBooking.checkOut,
+        nights: nightsCount,
+        guests: newBooking.guestsCount,
+        total_price: newBooking.totalPrice,
+        payment_method: newBooking.paymentMethod === 'bank_transfer' ? 'Τραπεζική Κατάθεση (Bank Transfer)' : newBooking.paymentMethod === 'arrival' ? 'Πληρωμή κατά την Άφιξη (Pay on Arrival)' : 'Πιστωτική/Χρεωστική Κάρτα (Credit Card)',
+        payment_status: newBooking.status === 'confirmed' ? 'Confirmed (Επιβεβαιώθηκε)' : 'Pending Direct Deposit (Εκκρεμεί κατάθεση προκαταβολής)',
+        admin_to_email: siteSettings.emailjs_to_email || siteSettings.siteEmail || 'iliasmav6@gmail.com',
+      };
         room_name: rooms.find(r => r.id === newBooking.roomId)?.name || ROOMS.find(r => r.id === newBooking.roomId)?.name || "Room",
         check_in: newBooking.checkIn,
         check_out: newBooking.checkOut,
