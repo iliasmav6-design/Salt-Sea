@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Room } from '../types';
 import { useCustomizer } from '../context/CustomizerContext';
 import { 
@@ -6,6 +6,7 @@ import {
   ChevronLeft, ChevronRight, Plus, Trash2, Pencil 
 } from 'lucide-react';
 import { EditableText, EditableImage } from './Editable';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface RoomsProps {
   onSelectRoomForBooking: (roomId: string) => void;
@@ -17,6 +18,28 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
   const [selectedRoomDetails, setSelectedRoomDetails] = useState<Room | null>(null);
   const [activeSlideIndices, setActiveSlideIndices] = useState<Record<string, number>>({});
   const [modalActivePhotoIndex, setModalActivePhotoIndex] = useState<number>(0);
+
+  // Auto-play room images slideshow to rotate images automatically every 5 seconds
+  useEffect(() => {
+    const intervals = rooms.map(room => {
+      const roomImages = room.images && room.images.length > 0 ? room.images : [room.imageUrl];
+      if (roomImages.length <= 1) return null;
+      
+      return setInterval(() => {
+        setActiveSlideIndices(prev => {
+          const curr = prev[room.id] || 0;
+          const next = (curr + 1) % roomImages.length;
+          return { ...prev, [room.id]: next };
+        });
+      }, 5000); // changes every 5 seconds
+    });
+
+    return () => {
+      intervals.forEach(interval => {
+        if (interval) clearInterval(interval);
+      });
+    };
+  }, [rooms]);
 
   const filteredRooms = filterType === 'all' 
     ? rooms 
@@ -86,12 +109,28 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
 
                     return (
                       <>
-                        <img
-                          src={currentImg}
-                          alt={room.name}
-                          className="w-full h-full object-cover filter brightness-[0.98] transition-all duration-350"
-                          referrerPolicy="no-referrer"
-                        />
+                        <div className="absolute inset-0 overflow-hidden bg-slate-950">
+                          <AnimatePresence initial={false} mode="popLayout">
+                            <motion.div
+                              key={`${room.id}-${safeIndex}`}
+                              initial={{ y: "100%", opacity: 0.9 }}
+                              animate={{ y: "0%", opacity: 1 }}
+                              exit={{ y: "-100%", opacity: 0.9 }}
+                              transition={{ duration: 1.0, ease: [0.25, 1, 0.35, 1] }}
+                              className="absolute inset-0 w-full h-full"
+                            >
+                              <motion.img
+                                src={currentImg}
+                                alt={room.name}
+                                initial={{ y: "4%", scale: 1.06 }}
+                                animate={{ y: "-4%", scale: 1.06 }}
+                                transition={{ duration: 5.2, ease: "linear" }}
+                                className="w-full h-full object-cover filter brightness-[0.98]"
+                                referrerPolicy="no-referrer"
+                              />
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
 
                         {/* Left arrow */}
                         {roomImages.length > 1 && (
@@ -657,3 +696,4 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
     </section>
   );
 }
+
