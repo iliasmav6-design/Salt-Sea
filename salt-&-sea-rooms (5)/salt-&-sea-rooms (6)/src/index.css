@@ -43,3 +43,13 @@
 .animate-spin-slow {
   animation: spin 16s linear infinite;
 }
+
+@keyframes slowPanUp {
+  0% { transform: translateY(4%) scale(1.08); }
+  50% { transform: translateY(-4%) scale(1.08); }
+  100% { transform: translateY(4%) scale(1.08); }
+}
+
+.animate-slowPanUp {
+  animation: slowPanUp 16s ease-in-out infinite;
+}
