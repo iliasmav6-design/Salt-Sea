@@ -18,18 +18,22 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
   const [selectedRoomDetails, setSelectedRoomDetails] = useState<Room | null>(null);
   const [activeSlideIndices, setActiveSlideIndices] = useState<Record<string, number>>({});
   const [modalActivePhotoIndex, setModalActivePhotoIndex] = useState<number>(0);
+  const [slideTicks, setSlideTicks] = useState<Record<string, number>>({});
 
   // Auto-play room images slideshow to rotate images automatically every 5 seconds
   useEffect(() => {
     const intervals = rooms.map(room => {
       const roomImages = room.images && room.images.length > 0 ? room.images : [room.imageUrl];
-      if (roomImages.length <= 1) return null;
       
       return setInterval(() => {
         setActiveSlideIndices(prev => {
           const curr = prev[room.id] || 0;
-          const next = (curr + 1) % roomImages.length;
+          const next = (curr + 1) % (roomImages.length || 1);
           return { ...prev, [room.id]: next };
+        });
+        setSlideTicks(prev => {
+          const curr = prev[room.id] || 0;
+          return { ...prev, [room.id]: curr + 1 };
         });
       }, 5000); // changes every 5 seconds
     });
@@ -112,18 +116,18 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
                         <div className="absolute inset-0 overflow-hidden bg-slate-950">
                           <AnimatePresence initial={false} mode="popLayout">
                             <motion.div
-                              key={`${room.id}-${safeIndex}`}
-                              initial={{ y: "100%", opacity: 0.9 }}
-                              animate={{ y: "0%", opacity: 1 }}
-                              exit={{ y: "-100%", opacity: 0.9 }}
-                              transition={{ duration: 1.0, ease: [0.25, 1, 0.35, 1] }}
+                              key={`${room.id}-${safeIndex}-${slideTicks[room.id] || 0}`}
+                              initial={{ opacity: 0, y: "15%" }}
+                              animate={{ opacity: 1, y: "0%" }}
+                              exit={{ opacity: 0, y: "-15%" }}
+                              transition={{ duration: 1.2, ease: "easeInOut" }}
                               className="absolute inset-0 w-full h-full"
                             >
                               <motion.img
                                 src={currentImg}
                                 alt={room.name}
-                                initial={{ y: "4%", scale: 1.06 }}
-                                animate={{ y: "-4%", scale: 1.06 }}
+                                initial={{ y: "4%", scale: 1.07 }}
+                                animate={{ y: "-4%", scale: 1.07 }}
                                 transition={{ duration: 5.2, ease: "linear" }}
                                 className="w-full h-full object-cover filter brightness-[0.98]"
                                 referrerPolicy="no-referrer"
@@ -696,4 +700,3 @@ export default function Rooms({ onSelectRoomForBooking }: RoomsProps) {
     </section>
   );
 }
-
